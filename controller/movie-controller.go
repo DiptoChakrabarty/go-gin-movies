@@ -8,7 +8,7 @@ import (
 
 type MovieController interface {
 	GetAll() []operation.Movie
-	Save(c *gin.Context) operation.Movie
+	Save(c *gin.Context) error
 }
 
 type controller struct {
@@ -25,9 +25,12 @@ func (c *controller) GetAll() []operation.Movie {
 	return c.svc.GetAll()
 }
 
-func (c *controller) Save(ctx *gin.Context) operation.Movie {
+func (c *controller) Save(ctx *gin.Context) error {
 	var movie operation.Movie
-	ctx.BindJSON(&movie)
+	err := ctx.ShouldBindJSON(&movie)
+	if err != nil {
+		return err
+	}
 	c.svc.Save(movie)
-	return movie
+	return nil
 }
