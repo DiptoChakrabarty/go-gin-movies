@@ -1,7 +1,7 @@
 package operation
 
 type Movie struct {
-	Title       string `json:"title" binding:"min=2,max=10"`
+	Title       string `json:"title" binding:"min=2,max=10" validator:"harrypotter-check"`
 	Description string `json:"desc" binding:"max=20"`
 	Trailer     string `json:"trailer" binding:"required,url"`
 	Price       string `json:"price" binding:"required"`
