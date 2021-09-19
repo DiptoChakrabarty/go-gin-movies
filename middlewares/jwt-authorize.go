@@ -1,17 +1,16 @@
 package middlewares
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/DiptoChakrabarty/go-gin-movies/service"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"log"
+	"net/http"
 )
 
 func AuthoirzeUser() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		const SCHEMA = "Bearer"
+		const SCHEMA = "Bearer "
 		authHeader := ctx.GetHeader("Authorization")
 		tokenUser := authHeader[len(SCHEMA):]
 

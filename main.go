@@ -14,14 +14,13 @@ var (
 	loginService service.LoginService = service.NewLoginService()
 	jwtService   service.JWTService   = service.NewJWTService()
 
-	movieController controller.MovieController  = controller.New(movieService)
-	loginController controlller.LoginController = controlller.NewLoginController(loginService, jwtService)
+	movieController controller.MovieController = controller.New(movieService)
+	loginController controller.LoginController = controller.NewLoginController(loginService, jwtService)
 )
 
 func main() {
 	router := gin.New()
-	router.Use(gin.Recovery(), middlewares.Logger(),
-		middlewares.AuthMethod(), gindump.Dump())
+	router.Use(gin.Recovery(), middlewares.Logger(), gindump.Dump())
 
 	router.Static("/css", "./templates/css")
 	router.LoadHTMLGlob("templates/*.html")
