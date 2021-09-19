@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/DiptoChakrabarty/go-gin-movies/operation"
 	"github.com/DiptoChakrabarty/go-gin-movies/service"
 	"github.com/DiptoChakrabarty/go-gin-movies/validators"
@@ -12,7 +14,8 @@ var validate *validator.Validate
 
 type MovieController interface {
 	GetAll() []operation.Movie
-	Save(c *gin.Context) error
+	Save(ctx *gin.Context) error
+	DisplayAll(ctx *gin.Context)
 }
 
 type controller struct {
@@ -43,4 +46,14 @@ func (c *controller) Save(ctx *gin.Context) error {
 	}
 	c.svc.Save(movie)
 	return nil
+}
+
+func (c *controller) DisplayAll(ctx *gin.Context) {
+	movies := c.svc.GetAll()
+	data := gin.H{
+		"title":  "Movies",
+		"movies": movies,
+	}
+
+	ctx.HTML(http.StatusOK, "main.html", data)
 }
