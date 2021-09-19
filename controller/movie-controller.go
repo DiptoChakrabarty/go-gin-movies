@@ -21,8 +21,8 @@ type controller struct {
 
 func New(svc service.MovieService) MovieController {
 	validate = validator.New()
-	validate.RegisterValidation("harrypotter-check",validators)
-	return controller{
+	validate.RegisterValidation("harrypotter-check", validators.ValidateMovie)
+	return &controller{
 		svc: svc,
 	}
 }

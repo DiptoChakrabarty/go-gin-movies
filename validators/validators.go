@@ -6,5 +6,5 @@ import (
 )
 
 func ValidateMovie(field validator.FieldLevel) bool {
-	return strings.Contains(field.Field().String(),"Potter")
+	return strings.Contains(field.Field().String(), "Potter")
 }

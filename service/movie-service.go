@@ -17,7 +17,7 @@ func New() MovieService {
 	return &movieService{}
 }
 
-func (svc *movieService) Save(movie operation.Movie) []operation.Movie {
+func (svc *movieService) Save(movie operation.Movie) operation.Movie {
 	svc.movies = append(svc.movies, movie)
 	return movie
 }

@@ -1,10 +1,12 @@
 package middlewares
+
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
-func Logger() gin.HandleFunc {
+func Logger() gin.HandlerFunc {
 	return gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 		return fmt.Sprintf("%s - [%s] %s %s %d %s \n",
 			param.ClientIP,
@@ -12,7 +14,7 @@ func Logger() gin.HandleFunc {
 			param.Method,
 			param.Path,
 			param.StatusCode,
-			param.Latency
+			param.Latency,
 		)
 	})
 }

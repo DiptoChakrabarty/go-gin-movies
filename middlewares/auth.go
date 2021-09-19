@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AuthMethod() gin.HandleFunc {
+func AuthMethod() gin.HandlerFunc {
 	return gin.BasicAuth(gin.Accounts{
-		"pinku": "qwerty"
+		"pinku": "qwerty",
 	})
 }
