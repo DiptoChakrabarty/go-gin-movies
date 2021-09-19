@@ -10,8 +10,12 @@ import (
 )
 
 var (
-	movieService    service.MovieService       = service.New()
-	movieController controller.MovieController = controller.New(movieService)
+	movieService service.MovieService = service.New()
+	loginService service.LoginService = service.NewLoginService()
+	jwtService   service.JWTService   = service.NewJWTService()
+
+	movieController controller.MovieController  = controller.New(movieService)
+	loginController controlller.LoginController = controlller.NewLoginController(loginService, jwtService)
 )
 
 func main() {
@@ -28,7 +32,19 @@ func main() {
 		})
 	})
 
-	movieRoutes := router.Group("/api")
+	router.POST("/login", func(ctx *gin.Context) {
+		token := loginController.Login(ctx)
+		if token != "" {
+			ctx.JSON(http.StatusOK, gin.H{
+				"token": token,
+			})
+		} else {
+			ctx.JSON(http.StatusUnauthorized, nil)
+		}
+
+	})
+
+	movieRoutes := router.Group("/api", middlewares.AuthoirzeUser())
 	{
 		movieRoutes.GET("/movies", func(ctx *gin.Context) {
 			ctx.JSON(200, movieController.GetAll())

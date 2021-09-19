@@ -1,4 +1,4 @@
-package controlller
+package controller
 
 import (
 	"github.com/DiptoChakrabarty/go-gin-movies/service"

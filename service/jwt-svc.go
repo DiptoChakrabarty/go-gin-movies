@@ -62,7 +62,7 @@ func (jwtsvc *jwtService) GenerateToken(username string, user bool) string {
 func (jwtsvc *jwtService) ValidateToken(token string) (*jwt.Token, error) {
 	return jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Incorrect SignIn Method: %v", t.Header["alg"])
+			return nil, fmt.Errorf("incorrect SignIn Method: %v", t.Header["alg"])
 		}
 		return []byte(jwtsvc.secretKey), nil
 	})
