@@ -4,10 +4,14 @@ import (
 	"net/http"
 
 	"github.com/DiptoChakrabarty/go-gin-movies/controller"
+	"github.com/DiptoChakrabarty/go-gin-movies/docs"
 	"github.com/DiptoChakrabarty/go-gin-movies/middlewares"
 	"github.com/DiptoChakrabarty/go-gin-movies/models"
+	"github.com/DiptoChakrabarty/go-gin-movies/routes"
 	"github.com/DiptoChakrabarty/go-gin-movies/service"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	gindump "github.com/tpkeeper/gin-dump"
 )
 
@@ -22,11 +26,20 @@ var (
 )
 
 func main() {
+
+	docs.SwaggerInfo.Title = "MovieS API"
+	docs.SwaggerInfo.Description = "This is a Movies Api"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.Schemes = []string{"https"}
+
 	router := gin.New()
-	router.Use(gin.Recovery(), middlewares.Logger(), gindump.Dump())
+	router.Use(gin.Recovery(), gindump.Dump())
 
 	router.Static("/css", "./templates/css")
 	router.LoadHTMLGlob("templates/*.html")
+
+	movieAPI := routes.NewMoviesApi(loginController, movieController)
 
 	router.GET("/health", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
@@ -46,46 +59,28 @@ func main() {
 
 	})
 
-	movieRoutes := router.Group("/api", middlewares.AuthoirzeUser())
+	movieRoutes := router.Group(docs.SwaggerInfo.BasePath)
 	{
-		movieRoutes.GET("/movies", func(ctx *gin.Context) {
-			ctx.JSON(200, movieController.GetAll())
-		})
-		movieRoutes.POST("/movies", func(ctx *gin.Context) {
-			err := movieController.Add(ctx)
-			if err != nil {
-				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			} else {
-				ctx.JSON(http.StatusOK, gin.H{"message": "Movie Details Saved"})
-			}
+		login := movieRoutes.Group("/auth")
+		{
+			login.POST("/login", movieAPI.LoginMethod)
+		}
 
-		})
-		movieRoutes.PUT("/movies/:id", func(ctx *gin.Context) {
-			err := movieController.Update(ctx)
-			if err != nil {
-				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			} else {
-				ctx.JSON(http.StatusOK, gin.H{"message": "Movie Details Saved"})
-			}
+		movies := movieRoutes.Group("/movies", middlewares.AuthoirzeUser())
+		{
+			movies.GET("", movieAPI.GetAll)
+			movies.POST("", movieAPI.Add)
+			movies.PUT(":id", movieAPI.Update)
+			movies.DELETE(":id", movieAPI.Delete)
+		}
 
-		})
-		movieRoutes.DELETE("/movies/:id", func(ctx *gin.Context) {
-			err := movieController.Delete(ctx)
-			if err != nil {
-				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			} else {
-				ctx.JSON(http.StatusOK, gin.H{"message": "Movie Details Saved"})
-			}
-
-		})
+		health := movieRoutes.Group("/health")
+		{
+			health.GET("", movieAPI.HealthCheck)
+		}
 	}
 
-	viewRoutes := router.Group("/view")
-	{
-		viewRoutes.GET("/movies", func(ctx *gin.Context) {
-			movieController.DisplayAll(ctx)
-		})
-	}
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(":8000")
 }
