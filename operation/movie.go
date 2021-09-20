@@ -17,7 +17,7 @@ type Movie struct {
 }
 
 type Actor struct {
-	FirstName string `json: "first" binding:"required" gorm:"type:varchar(20)"`
+	FirstName string `binding:"required" gorm:"type:varchar(20)" json: "first"`
 	LastName  string `json: "last" binding:"required" gorm:"type:varchar(20)"`
 	Age       int    `json: "age" binding:"get=1,lte=130"`
 	Email     string `json: "email" validate:"required,email" gorm:"type:varchar(20)"`

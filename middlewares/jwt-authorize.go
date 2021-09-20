@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	//"fmt"
 	"github.com/DiptoChakrabarty/go-gin-movies/service"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -11,7 +12,9 @@ import (
 func AuthoirzeUser() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		const SCHEMA = "Bearer "
+		//fmt.Println(SCHEMA)
 		authHeader := ctx.GetHeader("Authorization")
+		//fmt.Println(authHeader)
 		tokenUser := authHeader[len(SCHEMA):]
 
 		token, err := service.NewJWTService().ValidateToken(tokenUser)

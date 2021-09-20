@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/DiptoChakrabarty/go-gin-movies/controller"
 	"github.com/DiptoChakrabarty/go-gin-movies/docs"
 	"github.com/DiptoChakrabarty/go-gin-movies/middlewares"
@@ -12,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	gindump "github.com/tpkeeper/gin-dump"
+	//gindump "github.com/tpkeeper/gin-dump"
 )
 
 var (
@@ -25,39 +23,25 @@ var (
 	loginController controller.LoginController = controller.NewLoginController(loginService, jwtService)
 )
 
+// @securityDefinitions.apikey bearerAuth
+// @in header
+// @name Authorization
+
 func main() {
 
 	docs.SwaggerInfo.Title = "MovieS API"
 	docs.SwaggerInfo.Description = "This is a Movies Api"
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api/v1"
-	docs.SwaggerInfo.Schemes = []string{"https"}
+	docs.SwaggerInfo.Schemes = []string{"http"}
 
 	router := gin.New()
-	router.Use(gin.Recovery(), gindump.Dump())
+	router.Use(gin.Recovery())
 
 	router.Static("/css", "./templates/css")
 	router.LoadHTMLGlob("templates/*.html")
 
 	movieAPI := routes.NewMoviesApi(loginController, movieController)
-
-	router.GET("/health", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "Server Up and Running",
-		})
-	})
-
-	router.POST("/login", func(ctx *gin.Context) {
-		token := loginController.Login(ctx)
-		if token != "" {
-			ctx.JSON(http.StatusOK, gin.H{
-				"token": token,
-			})
-		} else {
-			ctx.JSON(http.StatusUnauthorized, nil)
-		}
-
-	})
 
 	movieRoutes := router.Group(docs.SwaggerInfo.BasePath)
 	{

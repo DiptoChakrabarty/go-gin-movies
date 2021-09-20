@@ -1,0 +1,164 @@
+definitions:
+  operation.Actor:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+    required:
+    - firstName
+    type: object
+  operation.Movie:
+    properties:
+      actor:
+        $ref: '#/definitions/operation.Actor'
+      desc:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      title:
+        type: string
+      trailer:
+        type: string
+    required:
+    - actor
+    - price
+    - trailer
+    type: object
+  user.User:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      description: Authenticates a user and provides a JWT to Authorize API calls
+      operationId: Authentication
+      parameters:
+      - description: Login User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      summary: Generates a JWT
+  /health:
+    get:
+      description: Checks Server Health While Running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "401":
+          description: ""
+      summary: Checks Health of Server
+  /movies:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the existing Movies from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      security:
+      - bearerAuth: []
+      summary: Displays all Movies Info
+    post:
+      consumes:
+      - application/json
+      description: Adds a movie to database
+      parameters:
+      - description: Add Movie
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/operation.Movie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "401":
+          description: ""
+      security:
+      - bearerAuth: []
+      summary: Adds a Movie Info
+  /movies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a movie in database
+      parameters:
+      - description: Delete Movie
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "401":
+          description: ""
+      security:
+      - bearerAuth: []
+      summary: Deletes a Movie Info
+    put:
+      consumes:
+      - application/json
+      description: Updates a movie in database
+      parameters:
+      - description: Update Movie
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "401":
+          description: ""
+      security:
+      - bearerAuth: []
+      summary: Updates a Movie Info
+securityDefinitions:
+  bearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
