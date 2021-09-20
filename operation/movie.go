@@ -1,16 +1,24 @@
 package operation
 
+import (
+	"time"
+)
+
 type Movie struct {
-	Title       string `json:"title" binding:"min=2,max=10" validator:"harrypotter-check"`
-	Description string `json:"desc" binding:"max=20"`
-	Trailer     string `json:"trailer" binding:"required,url"`
-	Price       string `json:"price" binding:"required"`
-	LeadActor  Person `json:"actor" binding:"required"`
+	ID          uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	Title       string    `json:"title" binding:"min=2,max=10" validator:"harrypotter-check" gorm:"type:varchar(10)"`
+	Description string    `json:"desc" binding:"max=20" gorm:"type:varchar(20)"`
+	Trailer     string    `json:"trailer" binding:"required,url" gorm:"type:varchar(50)"`
+	Price       int       `json:"price" binding:"required"`
+	LeadActor   Actor     `json:"actor" binding:"required" gorm:"foreignkey:ActorID"`
+	ActorID     uint64    `json:"-"`
+	Created     time.Time `json:"-" gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	Updated     time.Time `json:"-" gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
-type Person struct {
-	FirstName string `json: "first" binding:"required"`
-	LastName string `json: "last" binding:"required"`
-	Age int `json: "age" binding:"get=1,lte=130"`
-	Email string `json: "email" validate:"required,email"`
+type Actor struct {
+	FirstName string `json: "first" binding:"required" gorm:"type:varchar(20)"`
+	LastName  string `json: "last" binding:"required" gorm:"type:varchar(20)"`
+	Age       int    `json: "age" binding:"get=1,lte=130"`
+	Email     string `json: "email" validate:"required,email" gorm:"type:varchar(20)"`
 }

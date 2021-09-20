@@ -1,16 +1,19 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/DiptoChakrabarty/go-gin-movies/controller"
 	"github.com/DiptoChakrabarty/go-gin-movies/middlewares"
+	"github.com/DiptoChakrabarty/go-gin-movies/models"
 	"github.com/DiptoChakrabarty/go-gin-movies/service"
 	"github.com/gin-gonic/gin"
 	gindump "github.com/tpkeeper/gin-dump"
-	"net/http"
 )
 
 var (
-	movieService service.MovieService = service.New()
+	videoModel   models.MovieModel    = models.NewModelDB()
+	movieService service.MovieService = service.New(videoModel)
 	loginService service.LoginService = service.NewLoginService()
 	jwtService   service.JWTService   = service.NewJWTService()
 
@@ -49,7 +52,25 @@ func main() {
 			ctx.JSON(200, movieController.GetAll())
 		})
 		movieRoutes.POST("/movies", func(ctx *gin.Context) {
-			err := movieController.Save(ctx)
+			err := movieController.Add(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				ctx.JSON(http.StatusOK, gin.H{"message": "Movie Details Saved"})
+			}
+
+		})
+		movieRoutes.PUT("/movies/:id", func(ctx *gin.Context) {
+			err := movieController.Update(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				ctx.JSON(http.StatusOK, gin.H{"message": "Movie Details Saved"})
+			}
+
+		})
+		movieRoutes.DELETE("/movies/:id", func(ctx *gin.Context) {
+			err := movieController.Delete(ctx)
 			if err != nil {
 				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			} else {

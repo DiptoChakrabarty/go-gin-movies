@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/DiptoChakrabarty/go-gin-movies/operation"
 	"github.com/DiptoChakrabarty/go-gin-movies/service"
@@ -14,7 +15,9 @@ var validate *validator.Validate
 
 type MovieController interface {
 	GetAll() []operation.Movie
-	Save(ctx *gin.Context) error
+	Add(ctx *gin.Context) error
+	Update(ctx *gin.Context) error
+	Delete(ctx *gin.Context) error
 	DisplayAll(ctx *gin.Context)
 }
 
@@ -34,7 +37,7 @@ func (c *controller) GetAll() []operation.Movie {
 	return c.svc.GetAll()
 }
 
-func (c *controller) Save(ctx *gin.Context) error {
+func (c *controller) Add(ctx *gin.Context) error {
 	var movie operation.Movie
 	err := ctx.ShouldBindJSON(&movie)
 	if err != nil {
@@ -44,7 +47,43 @@ func (c *controller) Save(ctx *gin.Context) error {
 	if err != nil {
 		return err
 	}
-	c.svc.Save(movie)
+	c.svc.Add(movie)
+	return nil
+}
+
+func (c *controller) Update(ctx *gin.Context) error {
+	var movie operation.Movie
+	err := ctx.ShouldBindJSON(&movie)
+	if err != nil {
+		return err
+	}
+
+	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	if err != nil {
+		return err
+	}
+
+	movie.ID = id
+
+	err = validate.Struct(movie)
+	if err != nil {
+		return err
+	}
+	c.svc.Update(movie)
+	return nil
+}
+
+func (c *controller) Delete(ctx *gin.Context) error {
+	var movie operation.Movie
+
+	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	if err != nil {
+		return err
+	}
+
+	movie.ID = id
+
+	c.svc.Delete(movie)
 	return nil
 }
 

@@ -1,27 +1,42 @@
 package service
 
 import (
+	"github.com/DiptoChakrabarty/go-gin-movies/models"
 	"github.com/DiptoChakrabarty/go-gin-movies/operation"
 )
 
 type MovieService interface {
-	Save(operation.Movie) operation.Movie
+	Add(operation.Movie) error
+	Update(operation.Movie) error
+	Delete(operation.Movie) error
 	GetAll() []operation.Movie
 }
 
 type movieService struct {
-	movies []operation.Movie
+	model models.MovieModel
 }
 
-func New() MovieService {
-	return &movieService{}
+func New(movieModel models.MovieModel) MovieService {
+	return &movieService{
+		model: movieModel,
+	}
 }
 
-func (svc *movieService) Save(movie operation.Movie) operation.Movie {
-	svc.movies = append(svc.movies, movie)
-	return movie
+func (svc *movieService) Add(movie operation.Movie) error {
+	svc.model.Add(movie)
+	return nil
+}
+
+func (svc *movieService) Update(movie operation.Movie) error {
+	svc.model.Update(movie)
+	return nil
+}
+
+func (svc *movieService) Delete(movie operation.Movie) error {
+	svc.model.Delete(movie)
+	return nil
 }
 
 func (svc *movieService) GetAll() []operation.Movie {
-	return svc.movies
+	return svc.model.GetAll()
 }
