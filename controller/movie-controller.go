@@ -89,7 +89,7 @@ func (c *controller) Delete(ctx *gin.Context) error {
 }
 
 func (c *controller) GetOne(ctx *gin.Context) operation.Movie {
-	id, _ := strconv.ParseUint(ctx.Param("id"), 64, 0)
+	id, _ := strconv.ParseUint(ctx.Param("id"), 0, 0)
 	return c.svc.GetOne(id)
 }
 
