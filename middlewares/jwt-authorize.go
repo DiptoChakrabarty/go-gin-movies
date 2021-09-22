@@ -20,10 +20,10 @@ func AuthoirzeUser() gin.HandlerFunc {
 		token, err := service.NewJWTService().ValidateToken(tokenUser)
 
 		if token.Valid {
-			claims := token.Claims.(jwt.MapClaims)
-			log.Println("Name : ", claims["name"])
-			log.Println("Issuer : ", claims["issuer"])
-			log.Println("Admin : ", claims["admin"])
+			_ = token.Claims.(jwt.MapClaims)
+			//log.Println("Name : ", claims["name"])
+			//log.Println("Issuer : ", claims["issuer"])
+			//log.Println("Admin : ", claims["admin"])
 		} else {
 			log.Println(err)
 			ctx.AbortWithStatus(http.StatusUnauthorized)
