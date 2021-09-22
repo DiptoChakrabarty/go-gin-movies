@@ -11,6 +11,7 @@ type MovieModel interface {
 	Update(movie operation.Movie)
 	Delete(movie operation.Movie)
 	GetAll() []operation.Movie
+	GetOne(id uint64) operation.Movie
 }
 
 type model struct {
@@ -44,4 +45,10 @@ func (db *model) GetAll() []operation.Movie {
 	var movies []operation.Movie
 	db.DBConn.Set("gorm:auto_preload", true).Find(&movies)
 	return movies
+}
+
+func (db *model) GetOne(id uint64) operation.Movie {
+	var movie operation.Movie
+	db.DBConn.Find(&movie, id)
+	return movie
 }

@@ -10,6 +10,7 @@ type MovieService interface {
 	Update(operation.Movie) error
 	Delete(operation.Movie) error
 	GetAll() []operation.Movie
+	GetOne(id uint64) operation.Movie
 }
 
 type movieService struct {
@@ -39,4 +40,8 @@ func (svc *movieService) Delete(movie operation.Movie) error {
 
 func (svc *movieService) GetAll() []operation.Movie {
 	return svc.model.GetAll()
+}
+
+func (svc *movieService) GetOne(id uint64) operation.Movie {
+	return svc.model.GetOne(id)
 }

@@ -135,6 +135,38 @@ var doc = `{
             }
         },
         "/movies/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Displays a movie in database",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Displays one movie detail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Display Movie",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
@@ -177,9 +209,6 @@ var doc = `{
                     }
                 ],
                 "description": "Deletes a movie in database",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],

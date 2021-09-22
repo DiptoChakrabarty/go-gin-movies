@@ -19,6 +19,7 @@ type MovieController interface {
 	Update(ctx *gin.Context) error
 	Delete(ctx *gin.Context) error
 	DisplayAll(ctx *gin.Context)
+	GetOne(ctx *gin.Context) operation.Movie
 }
 
 type controller struct {
@@ -85,6 +86,11 @@ func (c *controller) Delete(ctx *gin.Context) error {
 
 	c.svc.Delete(movie)
 	return nil
+}
+
+func (c *controller) GetOne(ctx *gin.Context) operation.Movie {
+	id, _ := strconv.ParseUint(ctx.Param("id"), 64, 0)
+	return c.svc.GetOne(id)
 }
 
 func (c *controller) DisplayAll(ctx *gin.Context) {

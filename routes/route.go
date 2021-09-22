@@ -100,7 +100,6 @@ func (route *MovieApi) Update(ctx *gin.Context) {
 // DeleteMovies godoc
 // @Security bearerAuth
 // @Summary Deletes a Movie Info
-// @Accept json
 // @Produce json
 // @Param id path int true "Delete Movie"
 // @Success 200
@@ -115,6 +114,20 @@ func (route *MovieApi) Delete(ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{"message": "Movie Details Saved"})
 	}
+}
+
+// GetMovie godoc
+// @Security bearerAuth
+// @Summary Displays one movie detail
+// @Produce json
+// @Param id path int true "Display Movie"
+// @Success 200
+// @Failure 401
+// @Failure 400
+// @Router /movies/{id} [get]
+// @Description Displays a movie in database
+func (route *MovieApi) GetOne(ctx *gin.Context) {
+	ctx.JSON(200, route.movieController.GetOne(ctx))
 }
 
 // Check Health of Server

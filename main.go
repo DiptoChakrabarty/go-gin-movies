@@ -56,6 +56,7 @@ func main() {
 			movies.POST("", movieAPI.Add)
 			movies.PUT(":id", movieAPI.Update)
 			movies.DELETE(":id", movieAPI.Delete)
+			movies.GET(":id", movieAPI.GetOne)
 		}
 
 		health := movieRoutes.Group("/health")
