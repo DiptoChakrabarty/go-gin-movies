@@ -49,6 +49,6 @@ func (db *model) GetAll() []operation.Movie {
 
 func (db *model) GetOne(id uint64) operation.Movie {
 	var movie operation.Movie
-	db.DBConn.Find(&movie, id)
+	db.DBConn.Set("gorm:auto_preload", true).Find(&movie, id)
 	return movie
 }
