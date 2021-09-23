@@ -16,6 +16,12 @@
 - Run using go run main.go
 
 - Head over to http://localhost:8000/api/v1/health to check if running or no
+
+- To generate swagger docs run the swagger.sh file
+
+- Make sure to get swagger by using the command go get -u github.com/swaggo/swag/cmd/swag
+
+- Replace go path in file with your go path
 ```
 
 
