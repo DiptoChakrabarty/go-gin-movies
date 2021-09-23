@@ -50,29 +50,30 @@ var _ = ginkgo.Describe("Movie Service", func() {
 			})
 			ginkgo.It("atleast one element should return ", func() {
 				movies := movieService.GetAll()
-				Ω(movies).ShouldNot(gomega.BeEmpty())
+				gomega.Expect(movies).ToNot(gomega.BeEmpty())
 			})
 
 			ginkgo.It("display correct fields", func() {
-				startMovie := movieService.GetOne(1)
-				(startMovie.Title).Should(gomega.Equal(TITLE))
-				Ω(startMovie.Description).Should(gomega.Equal(DESCRIPTION))
-				Ω(startMovie.Trailer).Should(gomega.Equal(TRAILER))
-				Ω(startMovie.Price).Should(gomega.Equal(PRICE))
-				Ω(startMovie.LeadActor.Age).Should(gomega.Equal(AGE))
-				Ω(startMovie.LeadActor.FirstName).Should(gomega.Equal(FIRSTNAME))
-				Ω(startMovie.LeadActor.LastName).Should(gomega.Equal(LASTNAME))
-				Ω(startMovie.LeadActor.Email).Should(gomega.Equal(EMAIL))
+				startMovie := movieService.GetAll()[0]
+				gomega.Expect(startMovie.Title).To(gomega.Equal(TITLE))
+				gomega.Expect(startMovie.Description).To(gomega.Equal(DESCRIPTION))
+				gomega.Expect(startMovie.Trailer).To(gomega.Equal(TRAILER))
+				gomega.Expect(startMovie.Price).To(gomega.Equal(PRICE))
+				gomega.Expect(startMovie.LeadActor.Age).To(gomega.Equal(AGE))
+				gomega.Expect(startMovie.LeadActor.FirstName).To(gomega.Equal(FIRSTNAME))
+				gomega.Expect(startMovie.LeadActor.LastName).To(gomega.Equal(LASTNAME))
+				gomega.Expect(startMovie.LeadActor.Email).To(gomega.Equal(EMAIL))
 			})
 			ginkgo.AfterEach(func() {
 				movie := movieService.GetOne(1)
 				movieService.Delete(movie)
 			})
+
 		})
 		ginkgo.Context("No movie in database", func() {
 			ginkgo.It("empty list", func() {
 				movies := movieService.GetAll()
-				Ω(movies).Should(gomega.BeEmpty())
+				gomega.Expect(movies).To(gomega.BeEmpty())
 			})
 		})
 	})
