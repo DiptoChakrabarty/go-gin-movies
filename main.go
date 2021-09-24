@@ -16,7 +16,7 @@ import (
 var (
 	videoModel   models.MovieModel    = models.NewModelDB()
 	movieService service.MovieService = service.New(videoModel)
-	loginService service.LoginService = service.NewLoginService()
+	loginService service.LoginService = service.NewLoginService(videoModel)
 	jwtService   service.JWTService   = service.NewJWTService()
 
 	movieController controller.MovieController = controller.New(movieService)
