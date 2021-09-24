@@ -26,6 +26,11 @@
 - Service testing is in the tests folder , run go test to run tests
 ```
 
+## To Update Swagger
+```sh
+To update swagger run the swagger bash script and then run the application
+```
+
 
 # Routes
 
