@@ -3,7 +3,7 @@
 - This is a simple API developed using gin framework in go
 - Makes use of sqlite3 as database
 - Functonalities add,view,delete,update movies in database
-- Users can login and jwt is generated
+- Users can register themselves and then login for which jwt is generated
 
 # How to Run 
 
