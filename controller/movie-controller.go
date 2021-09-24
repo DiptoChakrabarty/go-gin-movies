@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"net/http"
 	"strconv"
 
 	"github.com/DiptoChakrabarty/go-gin-movies/operation"
@@ -18,7 +17,6 @@ type MovieController interface {
 	Add(ctx *gin.Context) error
 	Update(ctx *gin.Context) error
 	Delete(ctx *gin.Context) error
-	DisplayAll(ctx *gin.Context)
 	GetOne(ctx *gin.Context) operation.Movie
 }
 
@@ -91,14 +89,4 @@ func (c *controller) Delete(ctx *gin.Context) error {
 func (c *controller) GetOne(ctx *gin.Context) operation.Movie {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 0, 0)
 	return c.svc.GetOne(id)
-}
-
-func (c *controller) DisplayAll(ctx *gin.Context) {
-	movies := c.svc.GetAll()
-	data := gin.H{
-		"title":  "Movies",
-		"movies": movies,
-	}
-
-	ctx.HTML(http.StatusOK, "main.html", data)
 }

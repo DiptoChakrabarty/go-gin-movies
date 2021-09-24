@@ -38,9 +38,6 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Recovery())
 
-	router.Static("/css", "./templates/css")
-	router.LoadHTMLGlob("templates/*.html")
-
 	movieAPI := routes.NewMoviesApi(loginController, movieController)
 
 	movieRoutes := router.Group(docs.SwaggerInfo.BasePath)
