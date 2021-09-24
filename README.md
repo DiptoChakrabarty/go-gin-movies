@@ -22,6 +22,8 @@
 - Make sure to get swagger by using the command go get -u github.com/swaggo/swag/cmd/swag
 
 - Replace go path in file with your go path
+
+- Service testing is in the tests folder , run go test to run tests
 ```
 
 
@@ -29,12 +31,15 @@
 
 | SL No | Route | Method | Functionality |
 | ---- | ------ | ---- | ------- |
-| 1 | /api/v1/auth/login | POST | Login and get JWT |
-| 2 | /api/v1/movies | GET | View all movies |
-| 3 | /api/v1/moives | POST | Add a movie |
-| 4 | /api/v1/moives/:id | PUT | Update a movie |
-| 5 | /api/v1/movies/:id | DELETE | Delete a movie |
-| 6 | /api/v1/health | GET | Check server health |
-| 7 | /swagger/index.html | GET | Check Swagger docs |
+| 1 | /api/v1/auth/register | POST | Registers a User |
+| 2 | /api/v1/auth/login | POST | Login and get JWT |
+| 3 | /api/v1/auth/userdisplay | GET | Displays all users |
+| 4 | /api/v1/movies | GET | View all movies |
+| 5 | /api/v1/movies/:id | GET | Displays one movie |
+| 6 | /api/v1/moives | POST | Add a movie |
+| 7 | /api/v1/moives/:id | PUT | Update a movie |
+| 8 | /api/v1/movies/:id | DELETE | Delete a movie |
+| 9 | /api/v1/health | GET | Check server health |
+| 10 | /swagger/index.html | GET | Check Swagger docs |
 
 
