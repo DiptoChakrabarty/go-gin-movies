@@ -16,6 +16,7 @@ type MovieModel interface {
 	GetOne(id uint64) operation.Movie
 	AddUser(newuser user.User)
 	GetUser(username string) user.User
+	GetAllUsers() []user.User
 }
 
 type model struct {
@@ -61,8 +62,14 @@ func (db *model) AddUser(newuser user.User) {
 	db.DBConn.Model(&user.User{}).Create(&newuser)
 }
 
+func (db *model) GetAllUsers() []user.User {
+	var newusers []user.User
+	db.DBConn.Model(&user.User{}).Find(&newusers)
+	return newusers
+}
+
 func (db *model) GetUser(username string) user.User {
 	var olduser user.User
-	db.DBConn.Model(&user.User{}).Where("username = ?", username).Take(&olduser)
+	db.DBConn.Model(&user.User{}).Where("user_name = ?", username).Take(&olduser)
 	return olduser
 }

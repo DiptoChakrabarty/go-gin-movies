@@ -5,17 +5,23 @@ definitions:
         type: integer
       email:
         type: string
-      firstName:
+      first:
         type: string
-      lastName:
+      id:
+        type: integer
+      last:
         type: string
     required:
-    - firstName
+    - email
+    - first
+    - last
     type: object
   operation.Movie:
     properties:
       actor:
         $ref: '#/definitions/operation.Actor'
+      actorID:
+        type: integer
       desc:
         type: string
       id:
@@ -60,6 +66,35 @@ paths:
         "401":
           description: ""
       summary: Generates a JWT
+  /auth/register:
+    post:
+      description: Registers a User in the application
+      parameters:
+      - description: Register User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      summary: Registers a User
+  /auth/userdisplay:
+    get:
+      description: Displays all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      summary: Displays all Users
   /health:
     get:
       description: Checks Server Health While Running

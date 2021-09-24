@@ -42,6 +42,15 @@ func (route *MovieApi) LoginMethod(ctx *gin.Context) {
 	}
 }
 
+// Register godoc
+// @Summary Registers a User
+// @Consume application/json
+// @Produce json
+// @Param user body user.User true "Register User"
+// @Success 200
+// @Failure 401
+// @Router /auth/register [post]
+// @Description Registers a User in the application
 func (route *MovieApi) RegisterMethod(ctx *gin.Context) {
 	err := route.loginController.Register(ctx)
 	if err != nil {
@@ -49,6 +58,17 @@ func (route *MovieApi) RegisterMethod(ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{"message": "User Registered Succesfully"})
 	}
+}
+
+// Users godoc
+// @Summary Displays all Users
+// @Produce json
+// @Success 200
+// @Failure 401
+// @Router /auth/userdisplay [get]
+// @Description Displays all users
+func (route *MovieApi) GetAllUsersMethod(ctx *gin.Context) {
+	ctx.JSON(200, route.loginController.GetAllUsers(ctx))
 }
 
 // GetMovies godoc

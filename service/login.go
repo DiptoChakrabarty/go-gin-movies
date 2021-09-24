@@ -8,6 +8,7 @@ import (
 type LoginService interface {
 	Login(username string, password string) bool
 	Register(newuser user.User) error
+	GetAllUsers() []user.User
 }
 
 type loginService struct {
@@ -31,4 +32,8 @@ func (svc *loginService) Login(username string, password string) bool {
 func (svc *loginService) Register(newuser user.User) error {
 	svc.model.AddUser(newuser)
 	return nil
+}
+
+func (svc *loginService) GetAllUsers() []user.User {
+	return svc.model.GetAllUsers()
 }

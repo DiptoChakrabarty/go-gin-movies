@@ -52,6 +52,51 @@ var doc = `{
                 }
             }
         },
+        "/auth/register": {
+            "post": {
+                "description": "Registers a User in the application",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Registers a User",
+                "parameters": [
+                    {
+                        "description": "Register User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/auth/userdisplay": {
+            "get": {
+                "description": "Displays all users",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Displays all Users",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "description": "Checks Server Health While Running",
@@ -240,7 +285,9 @@ var doc = `{
         "operation.Actor": {
             "type": "object",
             "required": [
-                "firstName"
+                "email",
+                "first",
+                "last"
             ],
             "properties": {
                 "age": {
@@ -249,10 +296,13 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
-                "firstName": {
+                "first": {
                     "type": "string"
                 },
-                "lastName": {
+                "id": {
+                    "type": "integer"
+                },
+                "last": {
                     "type": "string"
                 }
             }
@@ -267,6 +317,9 @@ var doc = `{
             "properties": {
                 "actor": {
                     "$ref": "#/definitions/operation.Actor"
+                },
+                "actorID": {
+                    "type": "integer"
                 },
                 "desc": {
                     "type": "string"

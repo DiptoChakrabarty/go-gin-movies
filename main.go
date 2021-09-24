@@ -46,6 +46,7 @@ func main() {
 		{
 			login.POST("/register", movieAPI.RegisterMethod)
 			login.POST("/login", movieAPI.LoginMethod)
+			login.GET("/userdisplay", movieAPI.GetAllUsersMethod)
 		}
 
 		movies := movieRoutes.Group("/movies", middlewares.AuthoirzeUser())

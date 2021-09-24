@@ -9,6 +9,7 @@ import (
 type LoginController interface {
 	Login(ctx *gin.Context) string
 	Register(ctx *gin.Context) error
+	GetAllUsers(ctx *gin.Context) []user.User
 }
 
 type loginController struct {
@@ -44,4 +45,8 @@ func (l *loginController) Register(ctx *gin.Context) error {
 	}
 	err = l.loginService.Register(NewUser)
 	return err
+}
+
+func (l *loginController) GetAllUsers(ctx *gin.Context) []user.User {
+	return l.loginService.GetAllUsers()
 }
