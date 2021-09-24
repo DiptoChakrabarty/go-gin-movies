@@ -44,6 +44,7 @@ func main() {
 	{
 		login := movieRoutes.Group("/auth")
 		{
+			login.POST("/register", movieAPI.RegisterMethod)
 			login.POST("/login", movieAPI.LoginMethod)
 		}
 

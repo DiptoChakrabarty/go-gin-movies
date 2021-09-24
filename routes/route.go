@@ -42,6 +42,15 @@ func (route *MovieApi) LoginMethod(ctx *gin.Context) {
 	}
 }
 
+func (route *MovieApi) RegisterMethod(ctx *gin.Context) {
+	err := route.loginController.Register(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{"message": "User Registered Succesfully"})
+	}
+}
+
 // GetMovies godoc
 // @Security bearerAuth
 // @Summary Displays all Movies Info

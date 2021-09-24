@@ -7,7 +7,7 @@ import (
 
 type LoginService interface {
 	Login(username string, password string) bool
-	Register(username string, password string)
+	Register(newuser user.User) error
 }
 
 type loginService struct {
@@ -28,10 +28,7 @@ func (svc *loginService) Login(username string, password string) bool {
 	return verify_user.PassWord == password
 }
 
-func (svc *loginService) Register(username string, password string) {
-	newuser := user.User{
-		UserName: username,
-		PassWord: password,
-	}
+func (svc *loginService) Register(newuser user.User) error {
 	svc.model.AddUser(newuser)
+	return nil
 }

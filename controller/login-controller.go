@@ -8,6 +8,7 @@ import (
 
 type LoginController interface {
 	Login(ctx *gin.Context) string
+	Register(ctx *gin.Context) error
 }
 
 type loginController struct {
@@ -33,4 +34,14 @@ func (l *loginController) Login(ctx *gin.Context) string {
 		return l.jwtService.GenerateToken(UserCredentials.UserName, true)
 	}
 	return ""
+}
+
+func (l *loginController) Register(ctx *gin.Context) error {
+	var NewUser user.User
+	err := ctx.ShouldBind(&NewUser)
+	if err != nil {
+		panic(err)
+	}
+	err = l.loginService.Register(NewUser)
+	return err
 }
