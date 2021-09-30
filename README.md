@@ -4,6 +4,7 @@
 - Makes use of sqlite3 as database
 - Functonalities add,view,delete,update movies in database
 - Users can register themselves and then login for which jwt is generated
+- If you like the project please do :star: it :innocent:
 
 # How to Run 
 
