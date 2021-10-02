@@ -11,7 +11,9 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates mailcap && addgroup -S app && adduser -S app -G app -u 101
 USER app
 WORKDIR /app
+RUN mkdir db
 COPY --chown=app:app --from=builder /app/app ./
 COPY --chown=app:app --from=builder /app/docs ./docs
 EXPOSE 8000
+ENV GIN_MODE=release
 CMD ["./app"]
