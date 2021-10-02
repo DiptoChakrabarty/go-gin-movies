@@ -1,10 +1,16 @@
 package models
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/DiptoChakrabarty/go-gin-movies/user"
 
 	"github.com/DiptoChakrabarty/go-gin-movies/operation"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mssql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
@@ -23,9 +29,25 @@ type model struct {
 	DBConn *gorm.DB
 }
 
+func getEnv(key, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return defaultValue
+}
+
+func getDB() (db *gorm.DB, err error) {
+	db_type := getEnv("DB_TYPE", "sqlite3")
+	db_connection_string := getEnv("DB_CONNECTION_STRING", "./db/movie.db")
+	return gorm.Open(db_type, db_connection_string)
+}
+
+// db, err := gorm.Open("postgres", "host=localhost user=gorm password=gorm dbname=gorm port=5432 sslmode=disable")
+
 func NewModelDB() MovieModel {
-	db, err := gorm.Open("sqlite3", "movie.db")
+	db, err := getDB()
 	if err != nil {
+		fmt.Println(err.Error())
 		panic("Unable to connect to DB")
 	}
 	db.AutoMigrate(&operation.Movie{}, &operation.Actor{}, &user.User{})
