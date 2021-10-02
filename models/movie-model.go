@@ -42,8 +42,6 @@ func getDB() (db *gorm.DB, err error) {
 	return gorm.Open(db_type, db_connection_string)
 }
 
-// db, err := gorm.Open("postgres", "host=localhost user=gorm password=gorm dbname=gorm port=5432 sslmode=disable")
-
 func NewModelDB() MovieModel {
 	db, err := getDB()
 	if err != nil {
