@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: go-gin-movies
+  name: go-gin-movies-deployment
+  labels:
+    app: go-gin-movies
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-gin-movies
+  template:
+    metadata:
+      labels:
+        app: go-gin-movies
+    spec:
+      containers:
+        - name: go-gin-movies
+          image: <CONTAINER_REGISTRY>/go-gin-movies:latest
+          ports:
+            - name: web
+              containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: db_setup
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+      restartPolicy: Always

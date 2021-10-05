@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-gin-movies-service
+  namespace: go-gin-movies
+  labels:
+    app: go-gin-movies
+spec:
+  type: ClusterIP
+  selector:
+    app: go-gin-movies
+  ports:
+    - port: 8000
+      name: web
+      targetPort: 8000
