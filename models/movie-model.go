@@ -43,7 +43,7 @@ func getDB() (db *gorm.DB, err error) {
 }
 
 func NewModelDB() MovieModel {
-	db, err := gorm.Open("sqlite3", "movie.db")
+	db, err := getDB()
 	if err != nil {
 		fmt.Println(err.Error())
 		panic("Unable to connect to DB")
